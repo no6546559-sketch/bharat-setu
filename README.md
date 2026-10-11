@@ -158,6 +158,8 @@ Without a key the app still works fully — every feature has a deterministic of
 
 ## 8. Deploy
 
+**Live:** https://webapp-kohl-six-95.vercel.app
+
 **Vercel** (static output `public/`, one function `api/ai.js`):
 
 ```bash
@@ -165,7 +167,17 @@ npx vercel build
 npx vercel deploy --prebuilt --prod
 ```
 
-**GitHub:** the repository is pushed on branch `main` — see the GitHub link above.
+**GitHub:** the repository is pushed on branch `main` — https://github.com/no6546559-sketch/bharat-setu
+
+**Deliverables** (`deliverables/`):
+
+| File | Description |
+|------|-------------|
+| `Bharat_Setu_Project_Report.pdf` | 13-page project report (print-ready) |
+| `Bharat_Setu_Project_Report.html` | Report source (styled A4 HTML) |
+| `Bharat_Setu_Pitch_Deck.pptx` | 14-slide 16:9 pitch deck (speaker notes on every slide) |
+
+Regenerate: `python3 scripts/make-pptx.py` and `node scripts/make-report.mjs` (then `weasyprint deliverables/Bharat_Setu_Project_Report.html deliverables/Bharat_Setu_Project_Report.pdf`).
 
 ---
 
