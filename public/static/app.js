@@ -432,6 +432,136 @@ async function sharePlan() {
   catch { exportPlan(); }
 }
 
+/* ————————————— What-if simulator ————————————— */
+/* Re-runs the eligibility engine against a tweaked age/income WITHOUT touching
+   the saved profile — so a citizen can see "if my income were lower, what opens up?" */
+function wiProfile() {
+  const p = Object.assign({}, STATE.profile || {});
+  const a = $('#wiAge'), i = $('#wiIncome');
+  if (a) p.age = Number(a.value);
+  if (i) p.income = Number(i.value);
+  return p;
+}
+function renderWhatIf() {
+  const out = $('#wiOut'); if (!out) return;
+  const a = $('#wiAge'), i = $('#wiIncome');
+  const fmt = n => '₹' + Number(n || 0).toLocaleString('en-IN');
+  if ($('#wiAgeOut')) $('#wiAgeOut').textContent = a ? a.value : '—';
+  if ($('#wiIncomeOut')) $('#wiIncomeOut').textContent = i ? fmt(i.value) : '—';
+  const res = rankSchemes(wiProfile());
+  const est = computeEstimate(res);
+  const strong = res.filter(r => r.verdict === 'high').length;
+  const base = STATE.results || [];
+  const gained = res.filter(r => !base.some(b => b.scheme.id === r.scheme.id)).map(r => r.scheme);
+  const lost = base.filter(b => !res.some(r => r.scheme.id === b.scheme.id)).map(b => b.scheme);
+  out.innerHTML = `
+    <div class="grid g3" style="width:100%">
+      <div class="stat"><b>${res.length}</b><span>${esc(T('matches'))}</span></div>
+      <div class="stat"><b>${strong}</b><span>${esc(T('strong'))}</span></div>
+      <div class="stat"><b>${fmt(est.total)}</b><span>${esc(T('estimateShort'))}</span></div>
+    </div>
+    <div style="width:100%">
+      ${gained.length ? `<p class="small" style="color:var(--ok)"><b>+ ${esc(T('wiGain'))}:</b> ${gained.slice(0, 6).map(s => esc(s.name)).join(', ')}</p>` : ''}
+      ${lost.length ? `<p class="small" style="color:var(--bad)"><b>− ${esc(T('wiLose'))}:</b> ${lost.slice(0, 6).map(s => esc(s.name)).join(', ')}</p>` : ''}
+      ${!gained.length && !lost.length ? `<p class="small muted">${esc(T('wiSame'))}</p>` : ''}
+    </div>`;
+}
+function openWhatIf() {
+  const card = $('#whatIfCard'); if (!card) return;
+  card.hidden = false;
+  const p = STATE.profile || {};
+  if ($('#wiAge')) $('#wiAge').value = p.age || 34;
+  if ($('#wiIncome')) $('#wiIncome').value = Math.min(1200000, p.income || 180000);
+  renderWhatIf();
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* ————————————— Household (multi-member) ————————————— */
+function memberLabel(m, i) {
+  const p = m.profile || {};
+  const who = p.occupation || p.gender || T('member');
+  return `${m.name || T('member') + ' ' + (i + 1)} · ${who}`;
+}
+function renderHousehold() {
+  const chips = $('#memberChips'); if (!chips) return;
+  if (!STATE.members.length) {
+    chips.innerHTML = `<p class="small muted">${esc(T('householdEmpty'))}</p>`;
+    return;
+  }
+  chips.innerHTML = STATE.members.map((m, i) => `
+    <button class="chip ${i === STATE.activeMember ? 'on' : ''}" data-m="${i}">
+      ${esc(m.name || (T('member') + ' ' + (i + 1)))} <span class="tiny muted">${esc((m.profile || {}).occupation || '')}</span>
+      <span class="chip-x" data-del="${i}" title="Remove">✕</span>
+    </button>`).join('');
+  chips.querySelectorAll('[data-m]').forEach(b => b.addEventListener('click', e => {
+    if (e.target.dataset.del != null) return;
+    loadMember(Number(b.dataset.m));
+  }));
+  chips.querySelectorAll('[data-del]').forEach(x => x.addEventListener('click', e => {
+    e.stopPropagation();
+    STATE.members.splice(Number(x.dataset.del), 1);
+    if (STATE.activeMember >= STATE.members.length) STATE.activeMember = Math.max(0, STATE.members.length - 1);
+    LS.set('members', STATE.members); renderHousehold();
+  }));
+}
+function saveMember() {
+  const p = collectProfile();
+  const name = (prompt(T('memberNamePrompt'), '') || '').trim();
+  STATE.members.push({ name: name || (T('member') + ' ' + (STATE.members.length + 1)), profile: p });
+  STATE.activeMember = STATE.members.length - 1;
+  LS.set('members', STATE.members); LS.set('activeMember', STATE.activeMember);
+  renderHousehold(); toast(T('saved'));
+}
+function loadMember(i) {
+  const m = STATE.members[i]; if (!m) return;
+  STATE.activeMember = i; LS.set('activeMember', i);
+  fillProfile(m.profile || {});
+  renderHousehold();
+  runFind();
+  toast(T('memberLoaded'));
+}
+function householdAll() {
+  const out = $('#householdOut'); if (!out) return;
+  if (!STATE.members.length) { out.innerHTML = `<p class="small muted">${esc(T('householdEmpty'))}</p>`; return; }
+  const fmt = n => '₹' + Number(n || 0).toLocaleString('en-IN');
+  let grand = 0;
+  const rows = STATE.members.map((m, i) => {
+    const res = rankSchemes(m.profile || {});
+    const est = computeEstimate(res);
+    grand += est.total;
+    return { name: m.name || (T('member') + ' ' + (i + 1)), n: res.length, strong: res.filter(r => r.verdict === 'high').length, total: est.total, top: res.slice(0, 3).map(r => r.scheme.name) };
+  });
+  out.innerHTML = `
+    <div class="card" style="margin:0">
+      <div class="row spread"><h4 style="margin:0">${esc(T('householdTotal'))}</h4><b style="font-size:1.3rem;color:var(--navy)">${fmt(grand)}</b></div>
+      <table class="est-table" style="margin-top:10px"><thead><tr>
+        <th>${esc(T('member'))}</th><th>${esc(T('matches'))}</th><th class="num">${esc(T('estimateShort'))}</th>
+      </tr></thead><tbody>${rows.map(r => `<tr><td><b>${esc(r.name)}</b><br><span class="tiny muted">${r.top.map(esc).join(' · ')}</span></td><td>${r.n} <span class="tiny muted">(${r.strong} ${esc(T('strong'))})</span></td><td class="num">${fmt(r.total)}</td></tr>`).join('')}</tbody></table>
+    </div>`;
+}
+function householdExport() {
+  const fmt = n => '₹' + Number(n || 0).toLocaleString('en-IN');
+  const lines = ['BHARAT SETU — HOUSEHOLD BENEFIT PLAN', '====================================', ''];
+  let grand = 0;
+  for (const [i, m] of STATE.members.entries()) {
+    const res = rankSchemes(m.profile || {});
+    const est = computeEstimate(res); grand += est.total;
+    lines.push(`■ ${m.name || (T('member') + ' ' + (i + 1))} — ${res.length} schemes, est. ${fmt(est.total)}`);
+    for (const r of res.filter(x => x.verdict === 'high' || x.verdict === 'mid')) {
+      lines.push(`   • ${r.scheme.name} [${r.verdict}] — ${r.scheme.benefit}`);
+      lines.push(`     Apply: ${r.scheme.apply_url}`);
+    }
+    lines.push('');
+  }
+  lines.push(`HOUSEHOLD TOTAL (estimated): ${fmt(grand)}`);
+  lines.push('');
+  lines.push('Generated by Bharat Setu · verify on the official portal · 112 emergency · 181 women · 1930 cyber fraud');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/plain' }));
+  a.download = 'bharat-setu-household.txt'; a.click();
+  toast(T('saved'));
+}
+
 /* ————————————— Assistant ————————————— */
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -734,9 +864,27 @@ function init() {
   $('#btnDemo').addEventListener('click', () => { fillProfile(DEMO); runFind(); });
   $('#btnReset').addEventListener('click', () => {
     STATE.profile = {}; LS.set('profile', {}); STATE.results = []; STATE.resultsRendered = false;
-    fillProfile({}); renderResults(); toast(T('reset'));
+    fillProfile({}); renderResults(); renderPlan(); toast(T('reset'));
   });
   $$('#view-finder input, #view-finder select').forEach(el => el.addEventListener('change', collectProfile));
+
+  // What-if simulator
+  const bw = $('#btnWhatIf'); if (bw) bw.addEventListener('click', () => {
+    const c = $('#whatIfCard'); if (c && !c.hidden) { c.hidden = true; return; } openWhatIf();
+  });
+  const bwc = $('#btnWhatIfClose'); if (bwc) bwc.addEventListener('click', () => { $('#whatIfCard').hidden = true; });
+  ['#wiAge', '#wiIncome'].forEach(sel => { const el = $(sel); if (el) el.addEventListener('input', renderWhatIf); });
+
+  // Household
+  const bsm = $('#btnSaveMember'); if (bsm) bsm.addEventListener('click', saveMember);
+  const bh = $('#btnHouseholdClose'); if (bh) bh.addEventListener('click', () => { $('#householdCard').hidden = true; });
+  const bha = $('#btnHouseholdAll'); if (bha) bha.addEventListener('click', householdAll);
+  const bhe = $('#btnHouseholdExport'); if (bhe) bhe.addEventListener('click', householdExport);
+  const bhc = $('#btnHouseholdClear'); if (bhc) bhc.addEventListener('click', () => {
+    STATE.members = []; STATE.activeMember = 0; LS.set('members', []); LS.set('activeMember', 0);
+    renderHousehold(); $('#householdOut').innerHTML = ''; toast(T('clearPlan'));
+  });
+  if (STATE.members.length) { $('#householdCard').hidden = false; renderHousehold(); }
 
   initNav(); initChat(); initLetters(); initFraud();
   fillProfile(STATE.profile || {});

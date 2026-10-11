@@ -13,7 +13,9 @@ India runs one of the largest welfare systems on earth, yet crores of eligible c
 
 | Feature | What the citizen gets |
 |---|---|
-| 🧭 **Scheme Finder** | Fills one profile → gets every scheme they qualify for, **with the exact reason** they qualify (and what blocks them). |
+| 🧭 **Scheme Finder** | Fills one profile → gets every scheme they qualify for, **with the exact reason** they qualify (and what blocks them). A live **₹ value pill** shows the estimated total. |
+| 🧪 **What-if simulator** | Move **age** and **income** sliders and watch eligibility, the ₹ estimate and the "newly eligible / would no longer qualify" diff update live — without changing the saved profile. |
+| 👨‍👩‍👧‍👦 **Household mode** | Save several family members, each with their own profile, then see everyone's schemes and a **combined household benefit total**. Export the household plan in one file. |
 | 📋 **My Plan** | A tracker for each matched scheme (Not started → Applied → Received / Rejected), a **document-readiness bar**, and an **estimated annual benefit value** in ₹. Export / share / print as a PDF-ready plan. |
 | 🤖 **AI Assistant** | Asks anything in **13 Indian languages** (by text or voice). Answers are grounded on a curated knowledge base — never invented. Falls back to a fully offline answer engine. |
 | 📄 **Document Checker** | Pick what you already have → readiness score, the missing documents, **who issues each one and how long it takes**. |
@@ -75,7 +77,7 @@ webapp/
 │   ├── ai.js                 # serverless AI proxy (chat | letter | fraud)
 │   └── kb.js                 # auto-generated grounded knowledge base
 ├── public/
-│   ├── index.html            # 9-view app shell
+│   ├── index.html            # 8-view app shell
 │   ├── manifest.webmanifest  # PWA manifest
 │   ├── sw.js                 # offline service worker
 │   └── static/

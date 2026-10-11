@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Setu · भारत सेतु</title>
+<style>
+  :root{
+    --saffron:#FF9933; --green:#138808; --navy:#0B3D91;
+    --ink:#141B2E; --muted:#5A647A; --line:#D8DEEC; --panel:#F4F6FB;
+  }
+  *{box-sizing:border-box}
+  html{font-size:16px}
+  body{
+    margin:0; background:#fff; color:var(--ink);
+    font-family:"Segoe UI",Calibri,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.62; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .tricolour{height:10px;display:flex}
+  .tricolour i{flex:1}
+  .tricolour i:nth-child(1){background:var(--saffron)}
+  .tricolour i:nth-child(2){background:#fff}
+  .tricolour i:nth-child(3){background:var(--green)}
+  .wrap{max-width:900px;margin:0 auto;padding:0 34px 70px}
+  header.cover{padding:34px 0 26px;border-bottom:3px solid var(--navy);margin-bottom:26px}
+  .kicker{font-size:.72rem;font-weight:800;letter-spacing:.16em;color:var(--saffron);text-transform:uppercase;margin:0 0 8px}
+  h1{font-size:2.5rem;line-height:1.12;color:var(--navy);margin:0 0 6px;font-weight:800}
+  .sub{font-size:1.02rem;color:var(--muted);margin:0}
+  .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .meta span{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:.8rem;color:var(--navy);font-weight:600}
+  h2{font-size:1.5rem;color:var(--navy);margin:34px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--panel);font-weight:800;break-after:avoid}
+  h3{font-size:1.13rem;color:var(--navy);margin:22px 0 8px;font-weight:700;break-after:avoid}
+  h4{font-size:1rem;color:var(--ink);margin:16px 0 6px;font-weight:700;break-after:avoid}
+  p{margin:9px 0}
+  a{color:var(--navy);word-break:break-word}
+  strong{color:var(--ink)}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:.87em;font-family:ui-monospace,Menlo,Consolas,monospace}
+  pre{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:8px;padding:14px 16px;overflow:auto;break-inside:avoid}
+  pre code{background:none;border:none;padding:0;font-size:.82rem;line-height:1.5}
+  blockquote{margin:14px 0;padding:12px 18px;background:#FFF8EF;border-left:4px solid var(--saffron);border-radius:8px;color:#5b4a2f}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.88rem;break-inside:avoid}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--panel);color:var(--navy);font-weight:700}
+  tbody tr:nth-child(even){background:#FAFBFE}
+  ul,ol{margin:10px 0;padding-left:24px}
+  li{margin:5px 0}
+  hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
+  .badge-row span{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:.8rem;color:var(--navy);font-weight:600}
+  footer{margin-top:40px;padding-top:18px;border-top:3px solid var(--navy);font-size:.82rem;color:var(--muted)}
+  @page{size:A4;margin:16mm 14mm}
+  @media print{
+    .wrap{max-width:none;padding:0}
+    h2{break-after:avoid} h3{break-after:avoid}
+    a{color:var(--navy)}
+  }
+</style>
+</head>
+<body>
+<div class="tricolour"><i></i><i></i><i></i></div>
+<div class="wrap">
+<header class="cover">
+  <p class="kicker">Hackathon Submission · AI for Bharat &amp; Public Services</p>
+  <h1>Bharat Setu · भारत सेतु</h1>
+  <p class="sub">An AI bridge between Indian citizens and the public services they are entitled to — multilingual, explainable, offline-first.</p>
+  <div class="badge-row">
+    <span>43 schemes</span><span>30 categories</span><span>83 documents</span>
+    <span>12 helplines</span><span>13 languages</span><span>63/63 tests</span><span>₹0 to the citizen</span>
+  </div>
+  <div class="meta">
+    <span>Live: webapp-kohl-six-95.vercel.app</span>
+    <span>Source: github.com/no6546559-sketch/bharat-setu</span>
+  </div>
+</header>
+<main><h1 id="bharat-setu">Bharat Setu · भारत सेतु</h1>
+<h2 id="project-report-ai-for-bharat-public-services">Project Report — AI for Bharat &amp; Public Services</h2>
+<p><strong>Submission for:</strong> Hackathon — theme <em>AI for Bharat &amp; Public Services</em> <strong>Live application:</strong> https://webapp-kohl-six-95.vercel.app <strong>Source code:</strong> https://github.com/no6546559-sketch/bharat-setu <strong>Team size:</strong> solo–4 (project is designed for a small team; all roles merged in this build) <strong>Report date:</strong> 11 October 2026</p>
+<hr>
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<p>India operates one of the largest social-welfare systems on earth. Yet a large share of eligible citizens never receive the benefits they are legally entitled to. The binding constraint is almost never money — it is <strong>information asymmetry</strong>: schemes are scattered across dozens of central and state portals, most interfaces are English-first, the forms are not explained, and a layer of middlemen profits from that confusion.</p>
+<p><strong>Bharat Setu</strong> ("India Bridge") is a <strong>multilingual, explainable, offline-first AI assistant</strong> that closes that gap. A citizen enters a short profile once and receives:</p>
+<ul>
+<li>every government scheme they are eligible for, <strong>with the exact reason</strong> they qualify;</li>
+<li>a <strong>document-readiness score</strong> telling them precisely what is missing and where to get it;</li>
+<li>a <strong>formal RTI / grievance / certificate letter</strong> they can print and submit the same day;</li>
+<li>an estimated <strong>annual benefit value in rupees</strong>, tracked application-by-application;</li>
+<li>a <strong>What-if simulator</strong> that turns eligibility into a live dial — move age and income and watch</li>
+</ul>
+<p>  what opens up or closes, without touching the saved profile;</p>
+<ul>
+<li>a <strong>Household plan</strong> that combines several family members into one benefit total;</li>
+<li>a <strong>fraud shield</strong> that reads a suspicious SMS and explains, in plain language, exactly</li>
+</ul>
+<p>  what is happening and what to do next.</p>
+<p>It does all of this in <strong>13 Indian languages</strong> (including RTL Urdu), by <strong>voice or text</strong>, and <strong>with no internet connection required</strong> — because the entire reasoning engine runs on the device.</p>
+<hr>
+<h2 id="2-problem-statement">2. Problem Statement</h2>
+<h3 id="2-1-the-gap">2.1 The gap</h3>
+<table><thead><tr><th>Barrier</th><th>Consequence for the citizen</th></tr></thead><tbody><tr><td><strong>Fragmented discovery</strong> — schemes live on dozens of separate portals</td><td>Eligible people never learn they qualify</td></tr><tr><td><strong>Language</strong> — most portals are English-first</td><td>Crores of citizens are locked out of the interface</td></tr><tr><td><strong>Opaque eligibility rules</strong></td><td>People don't know <em>why</em> they were rejected or what to fix</td></tr><tr><td><strong>Documentation chaos</strong></td><td>Applications stall on a single missing certificate</td></tr><tr><td><strong>No recourse knowledge</strong></td><td>Citizens don't know RTI or grievance mechanisms exist</td></tr><tr><td><strong>Fraud and middlemen</strong></td><td>Fake "benefit" SMS, processing-fee scams, touts</td></tr></tbody></table>
+<h3 id="2-2-who-suffers-most">2.2 Who suffers most</h3>
+<p>First-time internet users, rural households, women, senior citizens, persons with disabilities, and low-literacy users — precisely the groups the welfare system is meant to protect. Any solution must therefore be <strong>simple, spoken, localised and trustworthy</strong>, not merely accurate.</p>
+<hr>
+<h2 id="3-solution-overview">3. Solution Overview</h2>
+<p>Bharat Setu is a <strong>single installable web app</strong> with eight tightly integrated views, plus three embedded decision tools (What-if simulator, Household mode, benefit estimator):</p>
+<table><thead><tr><th>#</th><th>View</th><th>What it does</th></tr></thead><tbody><tr><td>1</td><td>🏠 <strong>Home</strong></td><td>Explains the product, one-tap entry points, key numbers</td></tr><tr><td>2</td><td>🧭 <strong>Scheme Finder</strong></td><td>Profile → ranked eligibility list <strong>with reasons and blockers</strong>; live <strong>₹ value pill</strong>; <strong>What-if simulator</strong>; <strong>Household mode</strong></td></tr><tr><td>3</td><td>📋 <strong>My Plan</strong></td><td>Application tracker + document bar + <strong>₹ benefit estimator</strong></td></tr><tr><td>4</td><td>🤖 <strong>AI Assistant</strong></td><td>Grounded Q&amp;A in 13 languages, voice in and out</td></tr><tr><td>5</td><td>📄 <strong>Document Checker</strong></td><td>Readiness score, missing docs, issuing office + timeline</td></tr><tr><td>6</td><td>✍️ <strong>RTI &amp; Letters</strong></td><td>RTI, grievance, scheme representation, certificate request</td></tr><tr><td>7</td><td>🛡️ <strong>Fraud Shield</strong></td><td>Risk score /100 + red flags + exact next actions</td></tr><tr><td>8</td><td>📞 <strong>Helplines &amp; Help</strong></td><td>12 national helplines + plain-language glossary</td></tr></tbody></table>
+<h3 id="3-1-core-innovation-explainable-eligibility">3.1 Core innovation — explainable eligibility</h3>
+<p>Most "scheme finders" return a bare list. Bharat Setu returns a <strong>verdict with evidence</strong>. For every scheme the engine emits structured reasons and blockers, e.g.:</p>
+<blockquote>✓ <em>Age 34 is within the eligible band 18–120</em> ✓ <em>Rural residence matches the scheme area</em> ✓ <em>Land holding 1.5 acre(s) is within limits</em> ✕ <em>Income limit is ₹6,00,000/year</em></blockquote>
+<p>This is produced by a <strong>rule engine over a machine-readable <code>rules{}</code> block</strong> stored with each scheme — not by an LLM. That means it is deterministic, auditable, instantaneous, and works offline.</p>
+<h3 id="3-2-core-innovation-grounded-ai-with-graceful-degradation">3.2 Core innovation — grounded AI with graceful degradation</h3>
+<p>The optional LLM layer is <strong>never the source of truth</strong>. The serverless function builds its system prompt directly from the same curated knowledge base the UI uses and is instructed to cite only official <code>.gov.in</code> / <code>.nic.in</code> portals. If no key is configured, the upstream is down, or the response looks ungrounded, the handler returns <code>{ok:false, fallback:true}</code> and the client seamlessly answers from the <strong>deterministic offline engine</strong>. The user therefore never sees a fabricated scheme, amount or URL — the failure mode is <em>less rich</em>, never <em>wrong</em>.</p>
+<h3 id="3-3-core-innovation-offline-first">3.3 Core innovation — offline-first</h3>
+<p>All eligibility, document, letter and fraud logic ships as static JavaScript and is cached by a <strong>service worker</strong>. A citizen in a low-connectivity district retains full functionality. This is the single most important design decision for the "Bharat" context.</p>
+<h3 id="3-4-designed-for-the-actual-user">3.4 Designed for the actual user</h3>
+<ul>
+<li><strong>13 languages</strong> — English, Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada,</li>
+</ul>
+<p>  Malayalam, Punjabi, Odia, Assamese, Urdu (with full RTL layout).</p>
+<ul>
+<li><strong>Voice in &amp; out</strong> via the Web Speech API, locale-matched per language.</li>
+<li><strong>Font scaling to 140 %</strong>, <strong>high-contrast mode</strong>, <strong>dark mode</strong>.</li>
+<li><strong>Simple Mode</strong> — one tap enlarges text, calms the layout and hides decorative elements for</li>
+</ul>
+<p>  first-time internet users.</p>
+<hr>
+<h2 id="4-system-architecture">4. System Architecture</h2>
+<pre><code>                         ┌────────────────────────────────────────────┐
+   Citizen (any phone)   │  STATIC APP SHELL  ·  public/             │
+   ────────────────────► │  index.html · app.css · app.js             │
+                         │  schemes.js  → 43 schemes (knowledge base) │
+                         │  i18n.js     → 13 languages                │
+                         │  engine.js   → eligibility · docs · fraud  │
+                         │  sw.js       → offline cache (PWA)         │
+                         └───────────────┬────────────────────────────┘
+                                         │  POST /api/ai   (optional)
+                                         │  graceful fallback ↓
+                                         ▼
+                         ┌────────────────────────────────────────────┐
+   Vercel Serverless     │  api/ai.js  — grounded LLM proxy           │
+   Function (Node.js)    │  api/kb.js  — auto-generated KB (43)       │
+                         └───────────────┬────────────────────────────┘
+                                         │  OpenAI-compatible chat API
+                                         ▼
+                                      LLM  (gpt-5-mini → gpt-5-nano fallback)</code></pre>
+<h3 id="4-1-deliberate-architectural-choice-zero-build-step">4.1 Deliberate architectural choice — zero build step</h3>
+<p>The application is a <strong>plain static bundle plus one serverless function</strong>. There is no bundler, no front-end framework and no runtime filesystem access. Consequences:</p>
+<ol>
+<li>The <strong>same <code>api/ai.js</code> handler</strong> runs under the local dev server <em>and</em> on Vercel, so local</li>
+</ol>
+<p>   and production behaviour are identical.</p>
+<ol>
+<li>A static bundle is trivially cacheable, and caching is what makes offline mode viable.</li>
+<li>Tiny footprint → fast on 3G and on low-end devices, which is the target.</li>
+</ol>
+<h3 id="4-2-technology-stack">4.2 Technology stack</h3>
+<table><thead><tr><th>Layer</th><th>Technology</th><th>Rationale</th></tr></thead><tbody><tr><td>Front end</td><td>Semantic HTML5, hand-written CSS design system, <strong>vanilla JS</strong></td><td>No framework cost; runs on any device</td></tr><tr><td>Reasoning</td><td>Custom rule engine + NLU + fraud scoring in <code>engine.js</code></td><td>Deterministic, offline, auditable</td></tr><tr><td>Back end</td><td><strong>One Vercel serverless function</strong> (<code>api/ai.js</code>)</td><td>Minimum surface, Vercel-native</td></tr><tr><td>AI</td><td>Any OpenAI-compatible chat endpoint (<code>AI_MODEL</code>, <code>AI_MODEL_FALLBACK</code>)</td><td>Provider-agnostic, swappable</td></tr><tr><td>Offline</td><td>Service Worker + Web App Manifest (PWA)</td><td>Works without network</td></tr><tr><td>Voice</td><td>Web Speech API (<code>SpeechRecognition</code>, <code>speechSynthesis</code>)</td><td>Free, on-device, 13 locales</td></tr><tr><td>Hosting</td><td><strong>Vercel</strong> (static + functions) · <strong>GitHub</strong> (source)</td><td>One-click, free tier</td></tr></tbody></table>
+<h3 id="4-3-repository-layout">4.3 Repository layout</h3>
+<pre><code>webapp/
+├── api/
+│   ├── ai.js                 # serverless AI proxy (chat | letter | fraud)
+│   └── kb.js                 # auto-generated grounded knowledge base
+├── public/
+│   ├── index.html            # 8-view app shell
+│   ├── manifest.webmanifest  # PWA manifest
+│   ├── sw.js                 # offline service worker
+│   └── static/
+│       ├── app.css           # design system
+│       ├── app.js            # UI shell, views, My Plan tracker
+│       ├── schemes.js        # 43 real schemes (the knowledge base)
+│       ├── i18n.js           # 13 languages
+│       ├── engine.js         # offline reasoning engine
+│       └── icon.svg / icon-192.png / icon-512.png
+├── scripts/
+│   ├── dev-server.mjs        # local + sandbox server (Vercel-parity)
+│   ├── build.mjs             # build validator (no bundler needed)
+│   ├── verify.mjs            # 63-test end-to-end suite
+│   ├── generate-kb.mjs       # schemes.js → api/kb.js
+│   ├── make-icons.mjs        # zero-dependency PNG icon generator
+│   └── add-plan-i18n.mjs     # multilingual string injector
+├── vercel.json               # Vercel config (build, functions, headers)
+├── ecosystem.config.cjs      # PM2 config for the sandbox
+└── package.json</code></pre>
+<hr>
+<h2 id="5-the-knowledge-base">5. The Knowledge Base</h2>
+<p><strong>43 real Government of India / State schemes</strong>, each with a machine-readable rule block, official portal, required documents and application steps. Coverage spans <strong>30 categories</strong>:</p>
+<p><code>farmer · cash · pension · worker · bpl · food · family · women · energy · rural · water · housing · urban · health · all · girls · savings · education · disability · senior · student · loan · skill · employment · business · scst · insurance · safety · rights · governance · document</code></p>
+<p>Representative schemes: <strong>PM-Kisan</strong>, <strong>PM-JAY / Ayushman Bharat</strong>, <strong>PM Awas Yojana (Gramin &amp; Urban)</strong>, <strong>MGNREGA</strong>, <strong>NFSA</strong>, <strong>NSAP pensions</strong>, <strong>Sukanya Samriddhi</strong>, <strong>Atal Pension Yojana</strong>, <strong>Mudra</strong>, <strong>PM SVANidhi</strong>, <strong>Ujjwala</strong>, <strong>Jal Jeevan Mission</strong>, <strong>RTE</strong>, <strong>PM Vishwakarma</strong>, <strong>e-Shram</strong>, <strong>UDID</strong>, <strong>DigiLocker</strong>, <strong>Passport Seva</strong>, <strong>Ni-kshay (TB)</strong>, and <strong>RTI</strong>.</p>
+<p>The knowledge base also powers a <strong>catalogue of 83 distinct documents</strong>, each with a guide stating <em>who issues it</em> and <em>how long it takes</em>, plus <strong>12 national helplines</strong>.</p>
+<hr>
+<h2 id="6-feature-detail-and-walkthrough">6. Feature Detail and Walkthrough</h2>
+<h3 id="6-1-scheme-finder-explainable-matching">6.1 Scheme Finder — explainable matching</h3>
+<p>The engine evaluates hard identity conditions (women-only, widow, disability, TB, girl-child, farmer, employed …) as blockers, then scores soft/quantitative conditions (age band, income ceiling, land holding, rural/urban, category interest). Verdicts: <code>high</code> / <code>mid</code> / <code>low</code> / <code>none</code>. Every surviving match carries human-readable reasons; every blocked scheme shows why.</p>
+<h3 id="6-2-what-if-simulator-eligibility-as-a-dial-not-a-verdict-new">6.2 What-if simulator — eligibility as a dial, not a verdict  <strong>(new)</strong></h3>
+<p>Eligibility feels fixed and final to a citizen, but it is really a function of a few numbers. The simulator puts <strong>age</strong> and <strong>annual income</strong> on live sliders and re-runs the full rule engine on every move — without touching the saved profile. As the sliders move, the citizen watches three things change in real time:</p>
+<ul>
+<li>the <strong>number of matched schemes</strong> and the count of strong matches;</li>
+<li>the <strong>estimated annual benefit value</strong>;</li>
+<li>a diff against their current result: <strong>"Newly eligible"</strong> and <strong>"Would no longer qualify"</strong>.</li>
+</ul>
+<p>This turns a static list into a <em>planning</em> tool. A parent can see exactly how far over an income ceiling they are; a young person can see what opens up at a given age. It runs entirely offline.</p>
+<h3 id="6-3-household-mode-one-plan-for-the-whole-family-new">6.3 Household mode — one plan for the whole family  <strong>(new)</strong></h3>
+<p>Welfare in India is claimed by households, not by individuals. Household mode lets the user <strong>save several family members</strong>, each with their own full profile, then:</p>
+<ul>
+<li>switch between members with one tap (loading a member re-runs their eligibility instantly);</li>
+<li>view a <strong>household summary table</strong> — each member's match count, strong-match count, top three</li>
+</ul>
+<p>  schemes and estimated annual value — with a <strong>combined household total</strong>;</p>
+<ul>
+<li><strong>export the whole household plan</strong> as a single text file to carry to a CSC or Panchayat office.</li>
+</ul>
+<p>Member profiles are stored only in the browser's <code>localStorage</code>. Nothing is uploaded.</p>
+<h3 id="6-4-my-plan-from-discovery-to-disbursement-new">6.4 My Plan — from discovery to disbursement  <strong>(new)</strong></h3>
+<p>Discovery is only the first mile. My Plan turns a match list into an actionable plan:</p>
+<ul>
+<li><strong>Application tracker</strong> — mark each scheme *Not started → Applied → Benefit received →</li>
+</ul>
+<p>  Rejected (escalate)*, with an optional reference-number note.</p>
+<ul>
+<li><strong>Document-readiness bar</strong> per scheme, driven by the Document Checker state.</li>
+<li><strong>Estimated annual benefit value in ₹</strong>, computed conservatively by parsing each matched</li>
+</ul>
+<p>  scheme's headline amount (monthly amounts annualised). Presented as an itemised table with a   total — a tangible, motivating number.</p>
+<ul>
+<li><strong>Export</strong> the whole plan as a <code>.txt</code>, <strong>share</strong> it via the Web Share API, or <strong>print</strong> it to</li>
+</ul>
+<p>  PDF to carry to a CSC, bank or Gram Panchayat office.</p>
+<h3 id="6-5-ai-assistant-grounded-multilingual">6.5 AI Assistant — grounded, multilingual</h3>
+<p>Text or voice in any of 13 languages. The classifier detects intent (eligibility, documents, how-to, status, amount, grievance, RTI, fraud, health, education, employment, pension, agriculture, housing, women, water, help), extracts entities (age, income, land) and selects evidence schemes. The LLM layer refines the answer; the offline engine guarantees one always exists.</p>
+<h3 id="6-6-document-checker">6.6 Document Checker</h3>
+<p>Tick what you already have → a readiness percentage, the exact missing documents, and for each one the <strong>issuing office</strong> and <strong>expected timeline</strong> (e.g. <em>Income certificate — apply on the state e-District portal or CSC; the Tehsildar/Revenue office issues it; 7–15 days</em>).</p>
+<h3 id="6-7-rti-letters">6.7 RTI &amp; Letters</h3>
+<p>Four legally-shaped templates — <strong>RTI application</strong> (cites Section 6(1), the ₹10 fee, the 30-day statutory deadline and the appellate authority), <strong>public grievance</strong>, <strong>scheme representation</strong>, and <strong>certificate request</strong>. Each is refined by the AI when available and always available offline. Print, copy or download.</p>
+<h3 id="6-8-fraud-shield">6.8 Fraud Shield</h3>
+<p>A transparent, weighted rule set scores a pasted SMS/WhatsApp message out of 100: OTP/PIN requests, artificial urgency, shortened/throwaway domains, up-front "processing fees", lottery claims, APK/screen-share pushes, bank-detail harvesting, brand impersonation, job scams, fake free-scheme offers, and generic mass-mailing language. Genuine <code>.gov.in</code>/<code>.nic.in</code> domains register as a <em>positive</em> signal (with a negative lookahead so a phishing lookalike such as <code>pmkisan.gov.in.xyz</code> cannot masquerade as safe). Output: verdict, the red flags explained, and concrete next steps (call <strong>1930</strong> within the golden hour, report on cybercrime.gov.in, block the card, report to Sanchar Saathi).</p>
+<h3 id="6-9-accessibility-and-inclusion">6.9 Accessibility and inclusion</h3>
+<p>Skip link, ARIA live regions, keyboard-operable controls, semantic landmarks, 13 languages with correct <code>dir="rtl"</code> for Urdu, font scaling to 140 %, high-contrast and dark themes, optional spoken output for every answer, and a dedicated <strong>Simple Mode</strong> for first-time users.</p>
+<hr>
+<h2 id="7-deployment-and-verification">7. Deployment and Verification</h2>
+<h3 id="7-1-live-deployment">7.1 Live deployment</h3>
+<table><thead><tr><th>Item</th><th>Value</th></tr></thead><tbody><tr><td><strong>Production URL</strong></td><td>https://webapp-kohl-six-95.vercel.app</td></tr><tr><td><strong>Platform</strong></td><td>Vercel (static output <code>public/</code> + one serverless function)</td></tr><tr><td><strong>Source</strong></td><td>https://github.com/no6546559-sketch/bharat-setu (branch <code>main</code>)</td></tr><tr><td><strong>Status</strong></td><td>✅ Live, HTTP 200, public</td></tr></tbody></table>
+<h3 id="7-2-api-surface">7.2 API surface</h3>
+<table><thead><tr><th>Method</th><th>Path</th><th>Purpose</th></tr></thead><tbody><tr><td><code>GET</code></td><td><code>/api/ai</code></td><td>Status: <code>{ ok, ai_enabled, model, schemes, modes }</code></td></tr><tr><td><code>POST</code></td><td><code>/api/ai</code></td><td><code>mode:"chat"</code> grounded Q&amp;A · <code>mode:"letter"</code> letter drafting · <code>mode:"fraud"</code> second-opinion fraud analysis</td></tr></tbody></table>
+<h3 id="7-3-automated-verification">7.3 Automated verification</h3>
+<p><code>node scripts/verify.mjs</code> executes <strong>63 assertions against the shipped bytes</strong> (not a re-implementation), covering:</p>
+<ul>
+<li><strong>Eligibility engine</strong> — ranking, farmer/BPL/women paths, hard exclusions, age boundaries,</li>
+</ul>
+<p>  and income ceilings (including the corrected ESIC ₹3,00,000 limit case).</p>
+<ul>
+<li><strong>Document intelligence</strong> — catalogue build, readiness scoring, per-document guides.</li>
+<li><strong>Fraud shield</strong> — scam detection, official-domain positive signal.</li>
+<li><strong>Multilingual NLU</strong> — intent classification and entity extraction (age/income/land).</li>
+<li><strong>Grounded offline answers</strong> — citations, RTI routing, fraud routing.</li>
+<li><strong>Letter generator</strong> — all four letter types.</li>
+<li><strong>i18n completeness</strong> — all 13 languages.</li>
+<li><strong>Live <code>/api/ai</code> endpoint</strong> — status and graceful fallback.</li>
+</ul>
+<p><strong>Result: 63 passed, 0 failed.</strong> The build validator additionally confirms every scheme carries an official portal link, all scheme IDs are unique, and both serverless modules are present.</p>
+<h3 id="7-4-graceful-degradation-verified-in-production">7.4 Graceful degradation verified in production</h3>
+<p>On the live deployment the API currently reports <code>ai_enabled:false</code> (no LLM key configured in the Vercel project) and <code>POST /api/ai</code> returns <code>{ok:false, fallback:true}</code>. The client transparently serves the deterministic offline engine — <strong>every feature remains fully functional</strong>. This is the intended failure mode and is validated by the test suite.</p>
+<hr>
+<h2 id="8-mapping-to-evaluation-criteria">8. Mapping to Evaluation Criteria</h2>
+<table><thead><tr><th>Criterion</th><th>How Bharat Setu satisfies it</th></tr></thead><tbody><tr><td><strong>Innovation &amp; Originality</strong></td><td>Explainable rule-based eligibility (verdict <em>with evidence</em>) + grounded AI that degrades to a deterministic engine; a <strong>What-if simulator</strong> that turns eligibility into a live dial; <strong>Household mode</strong> that plans for the whole family; ₹ benefit estimator; document-intelligence with issuing office and timelines; Fraud Shield that explains <em>why</em></td></tr><tr><td><strong>Technical Implementation</strong></td><td>43-scheme machine-readable KB, custom NLU, 13-language i18n, PWA offline, service worker, serverless AI proxy with rate limiting and model fallback, 63-test suite, build validator, zero-dependency icon generator, generated PPTX deck</td></tr><tr><td><strong>Real-World Impact</strong></td><td>Directly addresses the last-mile information gap in India's welfare delivery; targets the exact groups most excluded (rural, women, seniors, disabled, first-time users); household-level planning matches how welfare is actually claimed</td></tr><tr><td><strong>Usability</strong></td><td>13 languages incl. RTL, voice in/out, font scaling to 140 %, high contrast, dark mode, Simple Mode, plain-language glossary, one-tap demo profile, live ₹ value pill, slider-based exploration</td></tr><tr><td><strong>Scalability</strong></td><td>Fully static front end on a global CDN; stateless serverless function; KB is a data file — adding schemes/languages is additive; no database to scale</td></tr><tr><td><strong>Presentation &amp; Demo</strong></td><td>Live URL + GitHub + this report + a 14-slide deck; demo path: sample profile → ranked schemes → What-if sliders → Household summary → My Plan ₹ estimate → document readiness → RTI letter → fraud check</td></tr></tbody></table>
+<hr>
+<h2 id="9-limitations-and-responsible-use">9. Limitations and Responsible Use</h2>
+<ul>
+<li>Benefit amounts and eligibility criteria are <strong>indicative</strong> and change by government</li>
+</ul>
+<p>  notification. Every scheme card links the official portal and the app instructs the user to   confirm before applying.</p>
+<ul>
+<li>This is <strong>not a government website</strong>. It does not accept applications, hold funds, or</li>
+</ul>
+<p>  represent any department.</p>
+<ul>
+<li><strong>Privacy:</strong> all profile data, tracker state and chat history live only in the browser's</li>
+</ul>
+<p>  <code>localStorage</code>. Nothing is uploaded. Only free-text the user explicitly submits (question,   letter details, suspicious message) is forwarded to the LLM — and only while online.</p>
+<ul>
+<li>The app never requests, and should never be given, OTPs, PINs, CVVs or full bank/Aadhaar</li>
+</ul>
+<p>  numbers.</p>
+<hr>
+<h2 id="10-future-roadmap">10. Future Roadmap</h2>
+<ol>
+<li><strong>More schemes and state-specific top-ups</strong> (currently pan-India plus popular state schemes).</li>
+<li><strong>DigiLocker integration</strong> to auto-verify documents and pre-fill the checklist.</li>
+<li><strong>SMS/IVR channel</strong> for feature phones, extending reach beyond smartphones.</li>
+<li><strong>On-device OCR</strong> to read a photograph of a government notice.</li>
+<li><strong>Status polling</strong> via official portals where an API exists, to auto-update My Plan.</li>
+<li><strong>Offline-first localisation</strong> of scheme <em>descriptions</em> (currently hero text + scheme names/</li>
+</ol>
+<p>   benefits are localised, with AI handling long-form explanation).</p>
+<hr>
+<h2 id="11-conclusion">11. Conclusion</h2>
+<p>Bharat Setu demonstrates that the hardest problem in Indian welfare delivery is not eligibility — it is <strong>access</strong>. By combining an <strong>explainable, offline, multilingual reasoning engine</strong> with a <strong>grounded AI layer that can only ever add richness, never risk correctness</strong>, the project delivers a tool that a first-time internet user in a low-connectivity district can genuinely use to find, claim and track the benefits they are owed.</p>
+<p>It is live, open-source, fully tested, and built to run where it is needed most — at the edge, on a phone, in the citizen's own language.</p>
+<hr>
+<p><em>Built as an independent citizen-help tool for a hackathon.</em> <strong>Helplines:</strong> 🚨 112 emergency · 👩 181 women · 💳 1930 cyber fraud · 🧒 1098 child</p></main>
+<footer>
+  <strong>Bharat Setu · भारत सेतु</strong> — an independent citizen-help tool built for a hackathon. Not a government website.<br>
+  Helplines: 🚨 112 emergency · 👩 181 women · 💳 1930 cyber fraud · 🧒 1098 child
+</footer>
+</div>
+</body>
+</html>

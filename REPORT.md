@@ -24,6 +24,9 @@ that closes that gap. A citizen enters a short profile once and receives:
 - a **document-readiness score** telling them precisely what is missing and where to get it;
 - a **formal RTI / grievance / certificate letter** they can print and submit the same day;
 - an estimated **annual benefit value in rupees**, tracked application-by-application;
+- a **What-if simulator** that turns eligibility into a live dial — move age and income and watch
+  what opens up or closes, without touching the saved profile;
+- a **Household plan** that combines several family members into one benefit total;
 - a **fraud shield** that reads a suspicious SMS and explains, in plain language, exactly
   what is happening and what to do next.
 
@@ -55,12 +58,13 @@ merely accurate.
 
 ## 3. Solution Overview
 
-Bharat Setu is a **single installable web app** with eight tightly integrated views:
+Bharat Setu is a **single installable web app** with eight tightly integrated views, plus
+three embedded decision tools (What-if simulator, Household mode, benefit estimator):
 
 | # | View | What it does |
 |---|---|---|
 | 1 | 🏠 **Home** | Explains the product, one-tap entry points, key numbers |
-| 2 | 🧭 **Scheme Finder** | Profile → ranked eligibility list **with reasons and blockers** |
+| 2 | 🧭 **Scheme Finder** | Profile → ranked eligibility list **with reasons and blockers**; live **₹ value pill**; **What-if simulator**; **Household mode** |
 | 3 | 📋 **My Plan** | Application tracker + document bar + **₹ benefit estimator** |
 | 4 | 🤖 **AI Assistant** | Grounded Q&A in 13 languages, voice in and out |
 | 5 | 📄 **Document Checker** | Readiness score, missing docs, issuing office + timeline |
@@ -206,7 +210,31 @@ farmer, employed …) as blockers, then scores soft/quantitative conditions (age
 ceiling, land holding, rural/urban, category interest). Verdicts: `high` / `mid` / `low` /
 `none`. Every surviving match carries human-readable reasons; every blocked scheme shows why.
 
-### 6.2 My Plan — from discovery to disbursement  **(new)**
+### 6.2 What-if simulator — eligibility as a dial, not a verdict  **(new)**
+Eligibility feels fixed and final to a citizen, but it is really a function of a few numbers.
+The simulator puts **age** and **annual income** on live sliders and re-runs the full rule
+engine on every move — without touching the saved profile. As the sliders move, the citizen
+watches three things change in real time:
+
+- the **number of matched schemes** and the count of strong matches;
+- the **estimated annual benefit value**;
+- a diff against their current result: **"Newly eligible"** and **"Would no longer qualify"**.
+
+This turns a static list into a *planning* tool. A parent can see exactly how far over an income
+ceiling they are; a young person can see what opens up at a given age. It runs entirely offline.
+
+### 6.3 Household mode — one plan for the whole family  **(new)**
+Welfare in India is claimed by households, not by individuals. Household mode lets the user
+**save several family members**, each with their own full profile, then:
+
+- switch between members with one tap (loading a member re-runs their eligibility instantly);
+- view a **household summary table** — each member's match count, strong-match count, top three
+  schemes and estimated annual value — with a **combined household total**;
+- **export the whole household plan** as a single text file to carry to a CSC or Panchayat office.
+
+Member profiles are stored only in the browser's `localStorage`. Nothing is uploaded.
+
+### 6.4 My Plan — from discovery to disbursement  **(new)**
 Discovery is only the first mile. My Plan turns a match list into an actionable plan:
 - **Application tracker** — mark each scheme *Not started → Applied → Benefit received →
   Rejected (escalate)*, with an optional reference-number note.
@@ -217,25 +245,25 @@ Discovery is only the first mile. My Plan turns a match list into an actionable 
 - **Export** the whole plan as a `.txt`, **share** it via the Web Share API, or **print** it to
   PDF to carry to a CSC, bank or Gram Panchayat office.
 
-### 6.3 AI Assistant — grounded, multilingual
+### 6.5 AI Assistant — grounded, multilingual
 Text or voice in any of 13 languages. The classifier detects intent (eligibility, documents,
 how-to, status, amount, grievance, RTI, fraud, health, education, employment, pension,
 agriculture, housing, women, water, help), extracts entities (age, income, land) and selects
 evidence schemes. The LLM layer refines the answer; the offline engine guarantees one always
 exists.
 
-### 6.4 Document Checker
+### 6.6 Document Checker
 Tick what you already have → a readiness percentage, the exact missing documents, and for each
 one the **issuing office** and **expected timeline** (e.g. *Income certificate — apply on the
 state e-District portal or CSC; the Tehsildar/Revenue office issues it; 7–15 days*).
 
-### 6.5 RTI & Letters
+### 6.7 RTI & Letters
 Four legally-shaped templates — **RTI application** (cites Section 6(1), the ₹10 fee, the
 30-day statutory deadline and the appellate authority), **public grievance**, **scheme
 representation**, and **certificate request**. Each is refined by the AI when available and
 always available offline. Print, copy or download.
 
-### 6.6 Fraud Shield
+### 6.8 Fraud Shield
 A transparent, weighted rule set scores a pasted SMS/WhatsApp message out of 100: OTP/PIN
 requests, artificial urgency, shortened/throwaway domains, up-front "processing fees",
 lottery claims, APK/screen-share pushes, bank-detail harvesting, brand impersonation, job
@@ -245,7 +273,7 @@ as `pmkisan.gov.in.xyz` cannot masquerade as safe). Output: verdict, the red fla
 and concrete next steps (call **1930** within the golden hour, report on cybercrime.gov.in,
 block the card, report to Sanchar Saathi).
 
-### 6.7 Accessibility and inclusion
+### 6.9 Accessibility and inclusion
 Skip link, ARIA live regions, keyboard-operable controls, semantic landmarks, 13 languages with
 correct `dir="rtl"` for Urdu, font scaling to 140 %, high-contrast and dark themes, optional
 spoken output for every answer, and a dedicated **Simple Mode** for first-time users.
@@ -297,12 +325,12 @@ functional**. This is the intended failure mode and is validated by the test sui
 
 | Criterion | How Bharat Setu satisfies it |
 |---|---|
-| **Innovation & Originality** | Explainable rule-based eligibility (verdict *with evidence*) + grounded AI that degrades to a deterministic engine; ₹ benefit estimator; document-intelligence with issuing office and timelines; Fraud Shield that explains *why* |
-| **Technical Implementation** | 43-scheme machine-readable KB, custom NLU, 13-language i18n, PWA offline, service worker, serverless AI proxy with rate limiting and model fallback, 63-test suite, build validator, zero-dependency icon generator |
-| **Real-World Impact** | Directly addresses the last-mile information gap in India's welfare delivery; targets the exact groups most excluded (rural, women, seniors, disabled, first-time users) |
-| **Usability** | 13 languages incl. RTL, voice in/out, font scaling to 140 %, high contrast, dark mode, Simple Mode, plain-language glossary, one-tap demo profile |
+| **Innovation & Originality** | Explainable rule-based eligibility (verdict *with evidence*) + grounded AI that degrades to a deterministic engine; a **What-if simulator** that turns eligibility into a live dial; **Household mode** that plans for the whole family; ₹ benefit estimator; document-intelligence with issuing office and timelines; Fraud Shield that explains *why* |
+| **Technical Implementation** | 43-scheme machine-readable KB, custom NLU, 13-language i18n, PWA offline, service worker, serverless AI proxy with rate limiting and model fallback, 63-test suite, build validator, zero-dependency icon generator, generated PPTX deck |
+| **Real-World Impact** | Directly addresses the last-mile information gap in India's welfare delivery; targets the exact groups most excluded (rural, women, seniors, disabled, first-time users); household-level planning matches how welfare is actually claimed |
+| **Usability** | 13 languages incl. RTL, voice in/out, font scaling to 140 %, high contrast, dark mode, Simple Mode, plain-language glossary, one-tap demo profile, live ₹ value pill, slider-based exploration |
 | **Scalability** | Fully static front end on a global CDN; stateless serverless function; KB is a data file — adding schemes/languages is additive; no database to scale |
-| **Presentation & Demo** | Live URL + GitHub + this report + a 14-slide deck; demo path: sample profile → ranked schemes → My Plan ₹ estimate → document readiness → RTI letter → fraud check |
+| **Presentation & Demo** | Live URL + GitHub + this report + a 14-slide deck; demo path: sample profile → ranked schemes → What-if sliders → Household summary → My Plan ₹ estimate → document readiness → RTI letter → fraud check |
 
 ---
 
