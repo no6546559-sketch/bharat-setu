@@ -49,7 +49,13 @@ const urbanRich = { age: 30, gender: 'male', area: 'urban', income: 2000000, cat
 let r2 = window.rankSchemes(urbanRich);
 ok('MGNREGA (rural only) is excluded for an urban salaried person', !r2.some(x => x.scheme.id === 'mgnrega'));
 ok('PM Awas Gramin is excluded for an urban person', !r2.some(x => x.scheme.id === 'pmay-g'));
-ok('high-income urban worker still gets ESIC (employer-based)', r2.some(x => x.scheme.id === 'esic'));
+// ESIC is employer-based with a ₹3,00,000 income ceiling — a mid-income urban
+// salaried worker is covered; the ultra-high-income profile above correctly is not.
+const urbanWorker = { age: 30, gender: 'male', area: 'urban', income: 240000, category: 'gen', occupation: 'job', flags: { employed: true } };
+ok('mid-income urban salaried worker gets ESIC (employer-based)',
+  window.rankSchemes(urbanWorker).some(x => x.scheme.id === 'esic'));
+ok('ultra-high-income worker correctly excluded from ESIC (income ceiling)',
+  !r2.some(x => x.scheme.id === 'esic'));
 ok('universal schemes reach a rich urban user (Jan Aushadhi)', r2.some(x => x.scheme.id === 'jan-aushadhi'));
 
 // age boundary

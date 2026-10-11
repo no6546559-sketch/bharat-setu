@@ -14,6 +14,7 @@ const STATE = {
   contrast: LS.get('contrast', 'normal'),
   font: LS.get('font', 100),
   voice: LS.get('voice', true),
+  simple: LS.get('simple', false),
   online: 'unknown',
   profile: LS.get('profile', {}),
   results: [],
@@ -21,6 +22,11 @@ const STATE = {
   letter: '',
   lastAiSource: null,
   chat: LS.get('chat', []),
+  // Application tracker: schemeId -> { status:'todo'|'applied'|'received'|'rejected', note, ts }
+  plan: LS.get('plan', {}),
+  // Named family members (multi-profile) → each is a saved profile object
+  members: LS.get('members', []),
+  activeMember: LS.get('activeMember', 0),
 };
 
 const STATES_LIST = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Andaman & Nicobar Islands","Chandigarh","Dadra & Nagar Haveli and Daman & Diu","Delhi","Jammu & Kashmir","Ladakh","Lakshadweep","Puducherry"];
@@ -43,6 +49,7 @@ function applyLang() {
   renderResults();
   renderDocResult();
   renderHelp();
+  renderPlan();
   if (STATE.letter) $('#letterOut').textContent = STATE.letter;
   renderChat();
   $('#langSel').value = STATE.lang;
@@ -55,15 +62,23 @@ function applyA11y() {
   const h = document.documentElement;
   h.dataset.theme = STATE.theme;
   h.dataset.contrast = STATE.contrast;
+  h.dataset.simple = STATE.simple ? 'on' : 'off';
   h.style.setProperty('--fs', (STATE.font / 100 * 16) + 'px');
   $('#btnTheme').textContent = STATE.theme === 'dark' ? '☀️' : '🌙';
   $('#btnVoice').textContent = STATE.voice ? '🔊' : '🔇';
   $('#btnVoice').title = STATE.voice ? T('voiceOn') : T('voiceOff');
+  const bs = $('#btnSimple');
+  if (bs) { bs.classList.toggle('on', STATE.simple); bs.title = STATE.simple ? T('simpleOn') : T('simpleOff'); }
 }
 function toggleTheme() { STATE.theme = STATE.theme === 'dark' ? 'light' : 'dark'; LS.set('theme', STATE.theme); applyA11y(); }
 function toggleContrast() { STATE.contrast = STATE.contrast === 'high' ? 'normal' : 'high'; LS.set('contrast', STATE.contrast); applyA11y(); }
 function bumpFont(d) { STATE.font = Math.min(140, Math.max(85, STATE.font + d)); LS.set('font', STATE.font); applyA11y(); }
 function toggleVoice() { STATE.voice = !STATE.voice; LS.set('voice', STATE.voice); applyA11y(); if (!STATE.voice) speechSynthesis.cancel(); }
+function toggleSimple() {
+  STATE.simple = !STATE.simple; LS.set('simple', STATE.simple);
+  if (STATE.simple) { STATE.font = Math.max(STATE.font, 118); LS.set('font', STATE.font); }
+  applyA11y(); toast(STATE.simple ? T('simpleOn') : T('simpleOff'));
+}
 
 let toastTimer;
 function toast(msg) {
@@ -202,7 +217,9 @@ function runFind() {
   const p = collectProfile();
   const res = rankSchemes(p);
   STATE.results = res;
+  STATE.resultsRendered = true;
   renderResults();
+  renderPlan();
   const strong = res.filter(r => r.verdict === 'high').length;
   if (!res.length) { toast(T('noResults')); speak(T('noResults')); return; }
   $('#resultCount').textContent = `${res.length} ${T('matches')}`;
@@ -274,6 +291,145 @@ function copyPlan() {
     a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain' }));
     a.download = 'bharat-setu-plan.txt'; a.click();
   });
+}
+
+/* ————————————— Benefit estimator ————————————— */
+/* Parse the headline ₹ figure out of a scheme's benefit text so we can estimate
+   the annual value of the benefits a user is eligible for. Conservative: takes
+   the FIRST ₹ amount that looks like an annual/one-time entitlement. */
+function parseBenefitINR(text) {
+  if (!text) return 0;
+  const t = String(text).replace(/,/g, '');
+  const m = t.match(/₹\s*(\d{3,7})/);
+  if (!m) return 0;
+  let v = parseInt(m[1], 10);
+  if (/\/\s*(month|mahina|mah|माह|महीना)/i.test(text)) v *= 12;
+  if (/lakh|lac|लाख/i.test(text)) v = Math.max(v, 0);
+  return v;
+}
+
+function computeEstimate(results) {
+  const top = (results || []).filter(r => r.verdict === 'high' || r.verdict === 'mid');
+  let total = 0;
+  const rows = [];
+  for (const r of top) {
+    const v = parseBenefitINR(r.scheme.benefit);
+    if (v > 0) { total += v; rows.push({ name: r.scheme.name, v, id: r.scheme.id }); }
+  }
+  rows.sort((a, b) => b.v - a.v);
+  return { total, rows, count: top.length };
+}
+
+function renderPlan() {
+  const planBox = $('#planStats'); if (!planBox) return;
+  const est = computeEstimate(STATE.results);
+  const statuses = STATE.plan || {};
+  const applied = Object.values(statuses).filter(s => s.status === 'applied').length;
+  const received = Object.values(statuses).filter(s => s.status === 'received').length;
+  const fmt = n => '₹' + Number(n || 0).toLocaleString('en-IN');
+
+  planBox.innerHTML = `
+    <div class="stat"><b>${STATE.results.length}</b><span>${esc(T('matches'))}</span></div>
+    <div class="stat"><b>${applied}</b><span>${esc(T('stApplied'))}</span></div>
+    <div class="stat"><b>${received}</b><span>${esc(T('stReceived'))}</span></div>`;
+
+  const pill = $('#estimatePill'); if (pill) pill.textContent = fmt(est.total);
+  const body = $('#estimateBody');
+  if (body) {
+    if (!est.rows.length) {
+      body.innerHTML = `<p class="small muted">${esc(T('estimateEmpty'))}</p>`;
+    } else {
+      body.innerHTML = `<table class="est-table"><tbody>${est.rows.slice(0, 8).map(r =>
+        `<tr><td>${esc(r.name)}</td><td class="num">${fmt(r.v)}</td></tr>`).join('')}
+        </tbody><tfoot><tr><th>${esc(T('estimateTotal'))}</th><th class="num">${fmt(est.total)}</th></tr></tfoot></table>`;
+    }
+  }
+
+  const list = $('#trackerList'); if (!list) return;
+  const top = STATE.results.filter(r => r.verdict === 'high' || r.verdict === 'mid');
+  if (!top.length) {
+    list.innerHTML = `<div class="card"><p class="muted">${esc(T('planEmpty'))}</p>
+      <button class="btn btn-primary btn-sm" data-goto="finder">🧭 ${esc(T('navFinder'))}</button></div>`;
+    list.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => go(b.dataset.goto)));
+    return;
+  }
+  const label = { todo: T('stTodo'), applied: T('stApplied'), received: T('stReceived'), rejected: T('stRejected') };
+  list.innerHTML = top.map(r => {
+    const st = statuses[r.scheme.id] || { status: 'todo', note: '' };
+    const docs = docReadiness(STATE.checkedDocs, STATE.profile);
+    const need = (r.scheme.docs || []);
+    const have = need.filter(d => STATE.checkedDocs.includes(d));
+    return `<article class="card tracker st-${st.status}" data-track="${r.scheme.id}">
+      <div class="row spread"><h3 style="margin:0">${esc(r.scheme.name)}</h3><span class="tag">${esc(label[st.status])}</span></div>
+      <p class="small muted">${esc(r.scheme.benefit)}</p>
+      <div class="bar" style="margin:6px 0"><i style="width:${need.length ? Math.round(have.length / need.length * 100) : 0}%"></i></div>
+      <p class="tiny muted">${have.length}/${need.length} ${esc(T('documents'))} ✓</p>
+      <div class="field" style="margin-top:8px">
+        <label class="sr">Status</label>
+        <select data-st="${r.scheme.id}">
+          <option value="todo" ${st.status === 'todo' ? 'selected' : ''}>${esc(label.todo)}</option>
+          <option value="applied" ${st.status === 'applied' ? 'selected' : ''}>${esc(label.applied)}</option>
+          <option value="received" ${st.status === 'received' ? 'selected' : ''}>${esc(label.received)}</option>
+          <option value="rejected" ${st.status === 'rejected' ? 'selected' : ''}>${esc(label.rejected)}</option>
+        </select>
+      </div>
+      <input type="text" data-note="${r.scheme.id}" placeholder="${esc(T('notePh'))}" value="${esc(st.note || '')}">
+      <div class="row" style="margin-top:8px">
+        <a class="btn btn-solid btn-sm" href="${r.scheme.apply_url}" target="_blank" rel="noopener">🔗 ${esc(T('official'))}</a>
+      </div>
+    </article>`;
+  }).join('');
+  list.querySelectorAll('[data-st]').forEach(sel => sel.addEventListener('change', () => {
+    const id = sel.dataset.st;
+    STATE.plan[id] = STATE.plan[id] || { status: 'todo', note: '' };
+    STATE.plan[id].status = sel.value; LS.set('plan', STATE.plan); renderPlan();
+    toast(T('saved'));
+  }));
+  list.querySelectorAll('[data-note]').forEach(inp => inp.addEventListener('change', () => {
+    const id = inp.dataset.note;
+    STATE.plan[id] = STATE.plan[id] || { status: 'todo', note: '' };
+    STATE.plan[id].note = inp.value; LS.set('plan', STATE.plan);
+  }));
+}
+
+function planText() {
+  const est = computeEstimate(STATE.results);
+  const lines = ['BHARAT SETU — MY BENEFIT PLAN', '================================', ''];
+  if (STATE.profile && Object.keys(STATE.profile).length) {
+    const p = STATE.profile;
+    lines.push('My profile: ' + [p.age ? `age ${p.age}` : '', p.gender || '', p.area || '', p.state || '', p.income ? `income ₹${p.income}` : '', p.occupation || ''].filter(Boolean).join(', '));
+    lines.push('');
+  }
+  const top = STATE.results.filter(r => r.verdict === 'high' || r.verdict === 'mid');
+  lines.push(`Estimated annual benefit value: ₹${est.total.toLocaleString('en-IN')} across ${top.length} matched schemes`, '');
+  for (const r of top) {
+    const st = (STATE.plan[r.scheme.id] || {}).status || 'todo';
+    lines.push(`• ${r.scheme.name}  [${r.verdict} · ${st}]`);
+    lines.push(`  Benefit: ${r.scheme.benefit}`);
+    lines.push(`  Documents: ${(r.scheme.docs || []).join(', ')}`);
+    lines.push(`  Apply: ${r.scheme.apply_url}`);
+    lines.push(`  Why: ${(r.reasons || []).join(' | ')}`);
+    lines.push('');
+  }
+  lines.push('Generated by Bharat Setu · verify every detail on the official portal.');
+  lines.push('Helplines — 112 emergency · 181 women · 1930 cyber fraud · 1098 child.');
+  return lines.join('\n');
+}
+
+function exportPlan() {
+  const txt = planText();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain' }));
+  a.download = 'bharat-setu-plan.txt'; a.click();
+  toast(T('saved'));
+}
+async function sharePlan() {
+  const txt = planText();
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Bharat Setu — My Benefit Plan', text: txt }); return; } catch {}
+  }
+  try { await navigator.clipboard.writeText(txt); toast(T('copied')); }
+  catch { exportPlan(); }
 }
 
 /* ————————————— Assistant ————————————— */
@@ -563,6 +719,16 @@ function init() {
   $('#btnVoice').addEventListener('click', toggleVoice);
   $('#btnAminus').addEventListener('click', () => bumpFont(-8));
   $('#btnAplus').addEventListener('click', () => bumpFont(8));
+  const bs = $('#btnSimple'); if (bs) bs.addEventListener('click', toggleSimple);
+
+  // My Plan actions
+  const ep = $('#btnExportPlan'); if (ep) ep.addEventListener('click', exportPlan);
+  const sp = $('#btnSharePlan'); if (sp) sp.addEventListener('click', sharePlan);
+  const pp = $('#btnPrintPlan'); if (pp) pp.addEventListener('click', () => window.print());
+  const cp = $('#btnClearPlan'); if (cp) cp.addEventListener('click', () => {
+    STATE.plan = {}; STATE.checkedDocs = []; LS.set('plan', {}); LS.set('docs', []);
+    buildDocList(); renderDocResult(); renderPlan(); toast(T('clearPlan'));
+  });
 
   $('#btnFind').addEventListener('click', runFind);
   $('#btnDemo').addEventListener('click', () => { fillProfile(DEMO); runFind(); });

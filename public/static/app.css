@@ -168,3 +168,37 @@ footer{border-top:1px solid var(--line);background:var(--card);padding:22px 16px
   body{background:#fff;color:#000} .card{box-shadow:none;border:1px solid #999}
 }
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ————— Simple mode: bigger text, calmer layout, hide decorative extras ————— */
+html[data-simple="on"]{--fs:19px}
+html[data-simple="on"] .view .sub,
+html[data-simple="on"] .hero .badge-row,
+html[data-simple="on"] .btn-state,
+html[data-simple="on"] .hrc,
+html[data-simple="on"] .stat span{font-size:1rem}
+html[data-simple="on"] .card{padding:20px;border-width:2px}
+html[data-simple="on"] .btn{padding:14px 20px;font-size:1.05rem}
+html[data-simple="on"] .tab{padding:12px 16px;font-size:1.02rem}
+html[data-simple="on"] .deco,
+html[data-simple="on"] .tiny.only-deco{display:none!important}
+html[data-simple="on"] .topbar-tools .icon-btn:not(#btnSimple):not(#btnVoice){opacity:.75}
+
+/* ————— My Plan ————— */
+.icon-btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.est-table{margin-top:6px}
+.est-table .num,.est-table td.num,.est-table th.num{text-align:right;font-variant-numeric:tabular-nums}
+.est-table tfoot th{border-top:2px solid var(--line);background:var(--chip);font-weight:700}
+.tracker{border-left:5px solid var(--line)}
+.tracker.st-todo{border-left-color:var(--muted)}
+.tracker.st-applied{border-left-color:var(--warn)}
+.tracker.st-received{border-left-color:var(--ok)}
+.tracker.st-rejected{border-left-color:var(--bad)}
+.tracker input[type="text"]{width:100%;margin-top:6px;padding:9px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--ink)}
+.tracker select{width:100%;padding:9px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--ink)}
+.plan-summary{display:flex;gap:12px;flex-wrap:wrap}
+@media print{
+  #trackerList{display:block} .tracker{break-inside:avoid;margin-bottom:14px}
+  .tracker select,.tracker input{display:none}
+  .est-table,.plan-summary{display:block}
+}
+

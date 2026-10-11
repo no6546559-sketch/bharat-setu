@@ -39,6 +39,7 @@
       <button class="icon-btn" id="btnContrast" title="High contrast mode" aria-label="Toggle high contrast">◐</button>
       <button class="icon-btn" id="btnTheme" title="Dark mode" aria-label="Toggle dark mode">🌙</button>
       <button class="icon-btn" id="btnVoice" title="Voice output" aria-label="Toggle voice output">🔊</button>
+      <button class="icon-btn" id="btnSimple" title="Simple mode (bigger text, fewer distractions)" aria-label="Toggle simple mode">🔎</button>
     </div>
   </div>
 </header>
@@ -47,6 +48,7 @@
 <nav class="tabs" aria-label="Main sections">
   <a class="tab" data-view="home" href="#home" aria-current="page">🏠 <span data-i18n="navHome">Home</span></a>
   <a class="tab" data-view="finder" href="#finder">🧭 <span data-i18n="navFinder">Scheme Finder</span></a>
+  <a class="tab" data-view="plan" href="#plan">📋 <span data-i18n="navPlan">My Plan</span></a>
   <a class="tab" data-view="assistant" href="#assistant">🤖 <span data-i18n="navAssistant">AI Assistant</span></a>
   <a class="tab" data-view="docs" href="#docs">📄 <span data-i18n="navDocs">Document Checker</span></a>
   <a class="tab" data-view="letters" href="#letters">✍️ <span data-i18n="navLetters">RTI &amp; Letters</span></a>
@@ -173,6 +175,38 @@
     <h3>Bharat Setu — printed plan</h3>
     <p class="small">Open the Scheme Finder, press “Check eligibility”, then use your browser’s Print → Save as PDF. Every card includes the official portal link.</p>
   </div>
+</section>
+
+<!-- ══════════ MY PLAN (tracker + benefit estimate) ══════════ -->
+<section class="view" id="view-plan" aria-labelledby="planTitle">
+  <h2 class="section" id="planTitle" data-i18n="planTitle"></h2>
+  <p class="sub" data-i18n="planSub"></p>
+
+  <div class="grid g3" id="planStats" style="margin-bottom:14px"></div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="row spread">
+        <h3 style="margin:0" data-i18n="benefitEstimate"></h3>
+        <span class="pill ok" id="estimatePill">₹0</span>
+      </div>
+      <p class="small muted" data-i18n="estimateHint"></p>
+      <div id="estimateBody"></div>
+    </div>
+    <div class="card">
+      <h3 data-i18n="progressTitle"></h3>
+      <p class="small muted" data-i18n="progressHint"></p>
+      <div class="row">
+        <button class="btn btn-outline btn-sm" id="btnExportPlan">⬇️ <span data-i18n="exportPlan"></span></button>
+        <button class="btn btn-outline btn-sm" id="btnPrintPlan">🖨️ <span data-i18n="printTitle"></span></button>
+        <button class="btn btn-outline btn-sm" id="btnSharePlan">📤 <span data-i18n="sharePlan"></span></button>
+        <button class="btn btn-outline btn-sm" id="btnClearPlan">🗑️ <span data-i18n="clearPlan"></span></button>
+      </div>
+      <p class="tiny muted" style="margin-top:10px" data-i18n="planQuoteHint"></p>
+    </div>
+  </div>
+
+  <div id="trackerList" class="grid g2"></div>
 </section>
 
 <!-- ══════════ ASSISTANT ══════════ -->
