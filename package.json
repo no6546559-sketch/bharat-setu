@@ -1,0 +1,20 @@
+{
+  "name": "bharat-setu",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bharat Setu — AI bridge to Indian citizen services. Scheme finder, document checker, RTI/grievance letter generator and fraud shield in 12 Indian languages.",
+  "keywords": ["hackathon", "ai-for-bharat", "public-services", "multilingual", "govtech", "pwa", "vercel"],
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node scripts/dev-server.mjs",
+    "dev": "node scripts/dev-server.mjs",
+    "build": "node scripts/build.mjs",
+    "verify": "node scripts/verify.mjs",
+    "kb": "node scripts/generate-kb.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "clean-port": "fuser -k 3000/tcp 2>/dev/null || true",
+    "test": "curl -s http://localhost:3000/api/ai | head -c 400"
+  }
+}

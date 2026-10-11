@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Bharat Setu">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B3D91"/><stop offset=".55" stop-color="#17307a"/><stop offset="1" stop-color="#0f5132"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <g fill="none" stroke-linecap="round">
+    <path d="M96 330c64-96 128-96 160-40 30 52 92 52 160-42" stroke="#FF9933" stroke-width="26"/>
+    <path d="M96 372c64-96 128-96 160-40 30 52 92 52 160-42" stroke="#ffffff" stroke-width="18" opacity=".9"/>
+    <path d="M96 410c64-96 128-96 160-40 30 52 92 52 160-42" stroke="#138808" stroke-width="26"/>
+  </g>
+  <circle cx="256" cy="196" r="74" fill="#ffffff" opacity=".96"/>
+  <text x="256" y="232" font-family="Noto Sans Devanagari, Noto Sans, sans-serif" font-size="96" font-weight="800" text-anchor="middle" fill="#0B3D91">भा</text>
+</svg>

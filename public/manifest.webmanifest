@@ -1,0 +1,25 @@
+{
+  "name": "Bharat Setu — AI Citizen Services",
+  "short_name": "Bharat Setu",
+  "description": "Find every Indian government scheme you are eligible for, in your language. AI-powered, offline-ready.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f7fb",
+  "theme_color": "#0B3D91",
+  "lang": "hi",
+  "categories": ["government", "utilities", "education"],
+  "icons": [
+    { "src": "/static/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/static/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Scheme Finder", "url": "/#finder" },
+    { "name": "Ask the assistant", "url": "/#assistant" },
+    { "name": "Fraud Shield", "url": "/#fraud" },
+    { "name": "Helplines", "url": "/#help" }
+  ]
+}

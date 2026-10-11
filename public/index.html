@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="hi" dir="ltr" data-theme="light" data-contrast="normal">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bharat Setu — AI Citizen Services Bridge | भारत सेतु</title>
+<meta name="description" content="Bharat Setu — find every government scheme you are eligible for, in your own language. AI-powered scheme finder, document checker, RTI & grievance letter generator and fraud shield for Indian citizens. Works offline.">
+<meta name="theme-color" content="#0B3D91">
+<meta property="og:title" content="Bharat Setu — Bridge between you and your government">
+<meta property="og:description" content="40+ Indian welfare schemes, 12 languages, voice assistant, RTI letter generator and fraud shield. Free, AI-powered, offline-ready.">
+<meta property="og:type" content="website">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+<link href="/static/app.css" rel="stylesheet">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#home" aria-label="Bharat Setu home">
+      <span class="brand-mark" aria-hidden="true"><span>भा</span></span>
+      <span>
+        <b>Bharat Setu <span class="tiny muted">भारत सेतु</span></b>
+        <small>AI bridge to citizen services</small>
+      </span>
+    </a>
+    <div class="topbar-tools">
+      <span class="pill" id="aiPill" title="AI engine status">⚡ …</span>
+      <label class="sr" for="langSel" data-i18n="langLabel">Language</label>
+      <select class="sel" id="langSel" aria-label="Select language"></select>
+      <button class="icon-btn" id="btnAminus" title="Decrease text size" aria-label="Decrease text size">A−</button>
+      <button class="icon-btn" id="btnAplus" title="Increase text size" aria-label="Increase text size">A+</button>
+      <button class="icon-btn" id="btnContrast" title="High contrast mode" aria-label="Toggle high contrast">◐</button>
+      <button class="icon-btn" id="btnTheme" title="Dark mode" aria-label="Toggle dark mode">🌙</button>
+      <button class="icon-btn" id="btnVoice" title="Voice output" aria-label="Toggle voice output">🔊</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="tabs" aria-label="Main sections">
+  <a class="tab" data-view="home" href="#home" aria-current="page">🏠 <span data-i18n="navHome">Home</span></a>
+  <a class="tab" data-view="finder" href="#finder">🧭 <span data-i18n="navFinder">Scheme Finder</span></a>
+  <a class="tab" data-view="assistant" href="#assistant">🤖 <span data-i18n="navAssistant">AI Assistant</span></a>
+  <a class="tab" data-view="docs" href="#docs">📄 <span data-i18n="navDocs">Document Checker</span></a>
+  <a class="tab" data-view="letters" href="#letters">✍️ <span data-i18n="navLetters">RTI &amp; Letters</span></a>
+  <a class="tab" data-view="fraud" href="#fraud">🛡️ <span data-i18n="navFraud">Fraud Shield</span></a>
+  <a class="tab" data-view="help" href="#help">📞 <span data-i18n="navHelp">Helplines &amp; Help</span></a>
+</nav>
+
+<main id="main">
+
+<!-- ══════════ HOME ══════════ -->
+<section class="view active" id="view-home" aria-labelledby="heroTitle">
+  <div class="hero">
+    <h1 id="heroTitle" data-i18n="heroTitle">Every government scheme you deserve — in your language, in one place.</h1>
+    <p data-i18n="heroSub"></p>
+    <div class="row">
+      <button class="btn btn-primary" data-goto="finder">🧭 <span data-i18n="getStarted">Find my schemes</span></button>
+      <button class="btn btn-ghost" data-goto="assistant">💬 <span data-i18n="askAssistant">Ask the assistant</span></button>
+    </div>
+    <div class="badge-row">
+      <span class="badge">🗣️ 12 Indian languages</span>
+      <span class="badge">🎙️ Voice in &amp; out</span>
+      <span class="badge">📴 Works offline (PWA)</span>
+      <span class="badge">🧠 Explainable eligibility</span>
+      <span class="badge">🛡️ Fraud shield</span>
+    </div>
+  </div>
+
+  <div class="grid g4" style="margin-bottom:16px">
+    <div class="stat"><b>40+</b><span data-i18n="statSchemes">Schemes mapped</span></div>
+    <div class="stat"><b>12</b><span data-i18n="statLangs">Indian languages</span></div>
+    <div class="stat"><b>₹0</b><span data-i18n="statFree">Always free</span></div>
+    <div class="stat"><b>PWA</b><span data-i18n="statOffline">Works offline</span></div>
+  </div>
+
+  <div class="grid g2">
+    <article class="card">
+      <h2 class="section">Why this matters</h2>
+      <p class="small muted">India runs one of the largest welfare systems on earth — yet crores of eligible citizens never receive their benefit. The barrier is rarely money. It is <b>information</b>: dozens of portals, English-only interfaces, forms nobody explains, and middlemen who profit from that confusion.</p>
+      <ul class="small list">
+        <li><b>Discovery</b> — one profile, every scheme you qualify for, with the reason written out.</li>
+        <li><b>Language</b> — the whole interface adapts to 12 Indian languages, with voice in and out.</li>
+        <li><b>Paperwork</b> — a readiness score tells you exactly which document is missing and where to get it.</li>
+        <li><b>Rights</b> — an RTI or grievance letter you can print and submit today.</li>
+        <li><b>Trust</b> — a fraud shield that reads a suspicious message and tells you what to do.</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2 class="section">Start in 30 seconds</h2>
+      <ol class="small list">
+        <li>Tap <b>Scheme Finder</b>.</li>
+        <li>Fill only what you know — leave the rest blank.</li>
+        <li>Press <b>Check eligibility</b>. Read the reasons, not just the list.</li>
+        <li>Open <b>Document Checker</b> to see what to collect.</li>
+        <li>Use <b>RTI &amp; Letters</b> if the office stalls.</li>
+        <li>Keep <b>Helplines</b> saved, and check any doubtful SMS in <b>Fraud Shield</b>.</li>
+      </ol>
+      <div class="row" style="margin-top:12px">
+        <button class="btn btn-solid btn-sm" id="btnDemo2" data-goto="finder">▶ Try a sample profile</button>
+        <button class="btn btn-outline btn-sm" data-goto="help">📞 Emergency numbers</button>
+      </div>
+    </article>
+  </div>
+
+  <article class="card">
+    <h2 class="section">Built for real constraints</h2>
+    <div class="grid g3">
+      <div>
+        <h4>🧓 Designed for first-time internet users</h4>
+        <p class="small muted">Large text (A± up to 140%), high-contrast mode, plain-language labels, and every answer can be read aloud. No jargon without a definition.</p>
+      </div>
+      <div>
+        <h4>📴 Works where the network doesn't</h4>
+        <p class="small muted">Installs as a PWA and caches the whole app. The eligibility engine, document guide, letter templates and fraud rules all run on the device — no internet needed.</p>
+      </div>
+      <div>
+        <h4>🔗 Nothing invented, everything sourced</h4>
+        <p class="small muted">Every scheme card links to its official <code>.gov.in</code> portal. The AI is grounded on a curated knowledge base and told never to promise what it cannot cite.</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ══════════ FINDER ══════════ -->
+<section class="view" id="view-finder" aria-labelledby="finderTitle">
+  <h2 class="section" id="finderTitle" data-i18n="finderTitle"></h2>
+  <p class="sub" data-i18n="finderSub"></p>
+
+  <div class="card">
+    <h3 data-i18n="personal"></h3>
+    <div class="form-grid">
+      <div class="field"><label for="age" data-i18n="age">Age</label><input type="number" id="age" min="0" max="120" inputmode="numeric" placeholder="e.g. 34"></div>
+      <div class="field"><label for="gender" data-i18n="gender">Gender</label>
+        <select id="gender"><option value="">—</option><option value="female" data-i18n="female"></option><option value="male" data-i18n="male"></option><option value="other" data-i18n="other"></option></select></div>
+      <div class="field"><label for="area" data-i18n="area">Where do you live</label>
+        <select id="area"><option value="">—</option><option value="rural" data-i18n="rural"></option><option value="urban" data-i18n="urban"></option></select></div>
+      <div class="field"><label for="stateSel" data-i18n="state">State / UT</label><select id="stateSel"></select></div>
+      <div class="field"><label for="income" data-i18n="income">Annual family income (₹)</label><input type="number" id="income" min="0" step="1000" inputmode="numeric" placeholder="e.g. 180000"></div>
+      <div class="field"><label for="category" data-i18n="category">Social category</label>
+        <select id="category"><option value="">—</option><option value="gen" data-i18n="gen"></option><option value="obc" data-i18n="obc"></option><option value="sc" data-i18n="sc"></option><option value="st" data-i18n="st"></option><option value="minority" data-i18n="minority"></option></select></div>
+      <div class="field"><label for="occupation" data-i18n="occupation">Main occupation</label><select id="occupation"></select></div>
+      <div class="field"><label for="land" data-i18n="landHolding">Land holding (acres)</label><input type="number" id="land" min="0" step="0.1" inputmode="decimal" placeholder="e.g. 1.5"></div>
+      <div class="field"><label for="childAge">Youngest girl child's age</label><input type="number" id="childAge" min="0" max="20" inputmode="numeric" placeholder="0–10 for Sukanya Samriddhi"></div>
+    </div>
+
+    <h3 style="margin-top:18px" data-i18n="situation"></h3>
+    <div class="grid g3" id="flagBoxes"></div>
+
+    <div class="row" style="margin-top:18px">
+      <button class="btn btn-primary" id="btnFind">🔍 <span data-i18n="runFind"></span></button>
+      <button class="btn btn-outline" id="btnDemo">▶ <span data-i18n="fillDemo"></span></button>
+      <button class="btn btn-outline" id="btnReset">↺ <span data-i18n="reset"></span></button>
+      <button class="btn btn-outline" onclick="window.print()">🖨️ <span data-i18n="printTitle"></span></button>
+    </div>
+  </div>
+
+  <div id="finderSummary" class="row" style="margin:8px 0 12px">
+    <span class="pill ok"><b id="resultCount">0</b> <span data-i18n="matches"></span></span>
+    <span class="pill ok"><b id="strongCount">0</b> <span data-i18n="strong"></span></span>
+  </div>
+
+  <div id="results" class="grid g2"></div>
+
+  <div class="print-only card">
+    <h3>Bharat Setu — printed plan</h3>
+    <p class="small">Open the Scheme Finder, press “Check eligibility”, then use your browser’s Print → Save as PDF. Every card includes the official portal link.</p>
+  </div>
+</section>
+
+<!-- ══════════ ASSISTANT ══════════ -->
+<section class="view" id="view-assistant" aria-labelledby="assistantTitle">
+  <h2 class="section" id="assistantTitle" data-i18n="assistantTitle"></h2>
+  <p class="sub" data-i18n="assistantSub"></p>
+  <div class="suggest" id="suggestRow"></div>
+
+  <div class="chat-wrap">
+    <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="Conversation"></div>
+    <form class="chat-input" id="chatForm">
+      <button type="button" class="icon-btn mic" id="btnMic" title="Speak your question" aria-label="Speak your question">🎙️</button>
+      <label class="sr" for="chatInput">Your question</label>
+      <textarea id="chatInput" rows="1" data-i18n-ph="placeholder" placeholder="Type in any language, or press the mic and speak…"></textarea>
+      <button type="submit" class="btn btn-primary btn-sm">➤ <span data-i18n="send"></span></button>
+    </form>
+  </div>
+  <p class="tiny muted" style="margin-top:8px">🔒 Your question is used only to answer you. Never share OTPs, PINs or full bank numbers with anyone — including AI tools.</p>
+</section>
+
+<!-- ══════════ DOCUMENTS ══════════ -->
+<section class="view" id="view-docs" aria-labelledby="docsTitle">
+  <h2 class="section" id="docsTitle" data-i18n="docsTitle"></h2>
+  <p class="sub" data-i18n="docsSub"></p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>✅ I already have</h3>
+      <div class="grid g2" id="docList" style="gap:8px"></div>
+    </div>
+    <div id="docResult"></div>
+  </div>
+</section>
+
+<!-- ══════════ LETTERS ══════════ -->
+<section class="view" id="view-letters" aria-labelledby="lettersTitle">
+  <h2 class="section" id="lettersTitle" data-i18n="lettersTitle"></h2>
+  <p class="sub" data-i18n="lettersSub"></p>
+  <div class="grid g2">
+    <div class="card no-print">
+      <div class="field"><label for="letterKind" data-i18n="letterType"></label>
+        <select id="letterKind">
+          <option value="rti" data-i18n="lt_rti"></option>
+          <option value="grievance" data-i18n="lt_grievance"></option>
+          <option value="scheme" data-i18n="lt_scheme"></option>
+          <option value="cert" data-i18n="lt_cert"></option>
+        </select>
+        <span class="hint" id="letterKindHint"></span>
+      </div>
+      <div class="field"><label for="lName" data-i18n="yourName"></label><input type="text" id="lName" placeholder="e.g. Sunita Devi"></div>
+      <div class="field"><label for="lAddr" data-i18n="addr"></label><input type="text" id="lAddr" placeholder="Village / Ward, Block, District, PIN"></div>
+      <div class="field"><label for="lAuth" data-i18n="authority"></label><input type="text" id="lAuth" placeholder="e.g. Public Information Officer, Block Development Office, Sitapur"></div>
+      <div class="field"><label for="lSubject" data-i18n="subject"></label><input type="text" id="lSubject" placeholder="e.g. Delay in PM Awas Yojana instalment"></div>
+      <div class="field"><label for="letterDetails" data-i18n="details"></label><textarea id="letterDetails" rows="7"></textarea></div>
+      <div class="row">
+        <button class="btn btn-primary" id="btnLetter">✍️ <span data-i18n="genLetter"></span></button>
+        <button class="btn btn-outline" id="btnPrint">🖨️ <span data-i18n="print"></span></button>
+        <button class="btn btn-outline" id="btnCopyLetter">📋 <span data-i18n="copy"></span></button>
+        <button class="btn btn-outline" id="btnDlLetter">⬇️ <span data-i18n="download"></span></button>
+      </div>
+    </div>
+    <div class="card">
+      <h3 class="no-print" data-i18n="printTitle"></h3>
+      <p class="tiny muted no-print" data-i18n="printHint"></p>
+      <pre id="letterOut" class="letter-out" style="white-space:pre-wrap;font-family:inherit;font-size:.9rem;line-height:1.6;margin:0"></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FRAUD ══════════ -->
+<section class="view" id="view-fraud" aria-labelledby="fraudTitle">
+  <h2 class="section" id="fraudTitle" data-i18n="fraudTitle"></h2>
+  <p class="sub" data-i18n="fraudSub"></p>
+  <div class="grid g2">
+    <div class="card">
+      <div class="field"><label for="fraudText" data-i18n="pasteText"></label><textarea id="fraudText" rows="9" placeholder="Paste the SMS / WhatsApp message / call script here…"></textarea></div>
+      <div class="row">
+        <button class="btn btn-primary" id="btnFraud">🛡️ <span data-i18n="checkMsg"></span></button>
+        <a class="btn btn-outline" href="tel:1930">📞 1930</a>
+        <a class="btn btn-outline" href="https://cybercrime.gov.in" target="_blank" rel="noopener">🌐 cybercrime.gov.in</a>
+      </div>
+      <h4 style="margin-top:16px" data-i18n="safetyTips"></h4>
+      <ul class="small list" id="tips" style="padding-left:18px"></ul>
+    </div>
+    <div id="fraudOut"></div>
+  </div>
+</section>
+
+<!-- ══════════ HELP ══════════ -->
+<section class="view" id="view-help" aria-labelledby="helpTitle">
+  <h2 class="section" id="helpTitle" data-i18n="helpTitle"></h2>
+  <p class="sub" data-i18n="helpSub"></p>
+  <div class="callgrid" id="contacts"></div>
+  <div class="card" style="margin-top:16px">
+    <h3 data-i18n="glossary"></h3>
+    <div id="glossary"></div>
+  </div>
+  <div class="card">
+    <h3>How to use Bharat Setu — step by step</h3>
+    <div class="grid g3">
+      <div><h4>1. Find schemes</h4><p class="small muted">Go to Scheme Finder, fill your age, income, area and tick your situation. Press Check eligibility. You get a ranked list — green cards are strong matches. Open “Why you qualify” to see the exact rule that matched.</p></div>
+      <div><h4>2. Get your papers ready</h4><p class="small muted">Open Document Checker and tick what you already have. The readiness score shows your gaps, and each missing document tells you which office issues it and how long it usually takes.</p></div>
+      <div><h4>3. Claim, and escalate if needed</h4><p class="small muted">Apply on the official portal in each card. If the office delays or refuses, use RTI &amp; Letters to generate a formal letter — an RTI reply is legally due in 30 days.</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <b>Bharat Setu · भारत सेतु</b>
+      <p class="small muted" data-i18n="disclaimer"></p>
+    </div>
+    <div>
+      <b>Emergency</b>
+      <p class="small">🚨 112 — All emergencies<br>👩 181 — Women's helpline<br>💳 1930 — Cyber fraud (golden hour)<br>🧒 1098 — Childline</p>
+    </div>
+    <div>
+      <b>Official portals</b>
+      <p class="small">india.gov.in · mygov.in · pgportal.gov.in · rtionline.gov.in<br>cybercrime.gov.in · nsp.gov.in</p>
+      <p class="tiny muted">Always verify scheme details on the official website before applying.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/static/schemes.js"></script>
+<script src="/static/i18n.js"></script>
+<script src="/static/engine.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
